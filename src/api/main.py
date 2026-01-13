@@ -33,3 +33,10 @@ def predict_risk(applicant: Applicant):
 
     prob = model.predict_proba(data)[0][1]
     return {"default_risk": float(prob)}
+
+import os
+import uvicorn
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("src.api.main:app", host="0.0.0.0", port=port)

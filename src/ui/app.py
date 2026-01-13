@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import os
 
 st.set_page_config(page_title="Credit Risk Predictor", layout="centered")
 
@@ -21,7 +22,10 @@ if st.button("Predict Risk"):
     }
 
     with st.spinner("Predicting..."):
-        res = requests.post("http://127.0.0.1:8000/predict", json=payload)
+        API_URL = os.getenv("API_URL", "http://localhost:8000")
+
+        res = requests.post(f"{API_URL}/predict", json=payload)
+
 
     if res.status_code == 200:
         risk = res.json()["default_risk"] * 100
