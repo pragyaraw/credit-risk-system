@@ -38,6 +38,41 @@ def predict_local(payload):
     return model.predict_proba(df)[0][1]
 
 if st.button("Predict Risk"):
+
+    # 🔒 Input Validation
+    if age < 18 or age > 100:
+        st.error("Age must be between 18 and 100.")
+        st.stop()
+
+    if income <= 0:
+        st.error("Income must be positive.")
+        st.stop()
+
+    if loan_amount <= 0:
+        st.error("Loan amount must be positive.")
+        st.stop()
+
+    if interest_rate < 0 or interest_rate > 100:
+        st.error("Interest rate must be between 0 and 100.")
+        st.stop()
+
+    if loan_pct <= 0 or loan_pct > 1:
+        st.error("Loan % of income must be between 0 and 1.")
+        st.stop()
+
+    if loan_amount > income * 5:
+        st.warning("Loan amount is very high relative to income.")
+
+    # 📤 Build payload only if validation passed
+    payload = {
+        "person_age": age,
+        "person_income": income,
+        "loan_amnt": loan_amount,
+        "loan_int_rate": interest_rate,
+        "loan_percent_income": loan_pct
+    }
+
+    # 🔮 Predict
     with st.spinner("Predicting..."):
         prob = predict_local(payload)
         st.success(f"Predicted Default Risk: {prob*100:.2f}%")
