@@ -21,7 +21,7 @@ loan_pct = st.number_input("Loan % of Income", min_value=0.0, max_value=1.0, val
 payload = {
     "person_age": age,
     "person_income": income,
-    "loan_amnt": loan_amt,
+    "loan_amount": loan_amt,
     "loan_int_rate": int_rate,
     "loan_percent_income": loan_pct,
 }
@@ -48,7 +48,7 @@ if st.button("Predict Risk"):
         st.error("Income must be positive.")
         st.stop()
 
-    if loan_amount <= 0:
+    if loan_amnt <= 0:
         st.error("Loan amount must be positive.")
         st.stop()
 
@@ -60,14 +60,14 @@ if st.button("Predict Risk"):
         st.error("Loan % of income must be between 0 and 1.")
         st.stop()
 
-    if loan_amount > income * 5:
+    if loan_amnt > income * 5:
         st.warning("Loan amount is very high relative to income.")
 
     # 📤 Build payload only if validation passed
     payload = {
         "person_age": age,
         "person_income": income,
-        "loan_amnt": loan_amount,
+        "loan_amnt": loan_amnt,
         "loan_int_rate": interest_rate,
         "loan_percent_income": loan_pct
     }
